@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    font-family: 'Tajawal', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  .font-amiri {
+    font-family: 'Amiri', serif;
+  }
+
+  .font-tajawal {
+    font-family: 'Tajawal', sans-serif;
+  }
+}
+
+/* Islamic arabesque subtle accent textures */
+.islamic-pattern {
+  background-color: transparent;
+  background-image: radial-gradient(rgba(180, 140, 75, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.dark .islamic-pattern {
+  background-image: radial-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 0);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.5);
+}
