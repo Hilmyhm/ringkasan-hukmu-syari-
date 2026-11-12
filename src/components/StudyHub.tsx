@@ -96,21 +96,21 @@ export const StudyHub: React.FC<StudyHubProps> = ({
             <span>المستوى الدراسي: بكالوريوس الشريعة (أصل 3110)</span>
           </span>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-amiri leading-tight">
-            لوحة المذاكرة الشاملة والتحليل الفقهي (ص 1 - 125)
+            لوحة المذاكرة الشاملة والتحليل الفقهي (ص 1 - 141)
           </h1>
           <p className="text-xs sm:text-sm text-stone-200 font-tajawal leading-relaxed">
-            استعراض هيكلي شامل لكتاب المقرر من مبادئ علم الأصول وتدوين الرسالة ومذاهب الأئمة الأربعة، إلى تفاصيل الحكم التكليفي والحكم الوضعي والسبب والشرط، مع وصول فوري للنصوص الأصلية من الـ PDF.
+            استعراض هيكلي شامل لكتاب المقرر من مبادئ علم الأصول وتدوين الرسالة ومذاهب الأئمة الأربعة، إلى تفاصيل الحكم التكليفي والوضعي (السبب، الشرط، المانع، الصحة، الفساد، الأداء والقضاء، والعزيمة والرخصة) مع مقتطفات الـ PDF.
           </p>
         </div>
 
         {/* Quick Stats Badges */}
         <div className="mt-6 pt-5 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
           <div className="p-2.5 rounded-xl bg-white/5 backdrop-blur-xs">
-            <span className="block text-xl font-bold font-mono text-amber-300">125</span>
+            <span className="block text-xl font-bold font-mono text-amber-300">141</span>
             <span className="text-[11px] text-stone-300 font-tajawal">صفحة مشروحة وموثقة</span>
           </div>
           <div className="p-2.5 rounded-xl bg-white/5 backdrop-blur-xs">
-            <span className="block text-xl font-bold font-mono text-emerald-300">19</span>
+            <span className="block text-xl font-bold font-mono text-emerald-300">{LESSONS.length}</span>
             <span className="text-[11px] text-stone-300 font-tajawal">درساً ووحدة علمية</span>
           </div>
           <div className="p-2.5 rounded-xl bg-white/5 backdrop-blur-xs">

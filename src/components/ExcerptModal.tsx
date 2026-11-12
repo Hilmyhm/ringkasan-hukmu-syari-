@@ -92,7 +92,7 @@ export const ExcerptModal: React.FC<ExcerptModalProps> = ({ excerpt, onClose }) 
         {/* Footer with Actions */}
         <div className="flex items-center justify-between px-5 py-3 border-t border-stone-200 dark:border-slate-800 bg-stone-100/60 dark:bg-slate-800/50 text-xs text-stone-500 dark:text-slate-400">
           <span className="truncate max-w-[280px] sm:max-w-md font-tajawal">
-            المصدر: {excerpt.bookTitle} (الصفحات 1 - 125)
+            المصدر: {excerpt.bookTitle} (الصفحات 1 - 141)
           </span>
 
           <div className="flex items-center gap-2">

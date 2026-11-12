@@ -75,7 +75,7 @@ export const QuizEngine: React.FC = () => {
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 dark:text-slate-400 font-tajawal max-w-md mx-auto">
               {percentage >= 85
-                ? 'ممتاز جداً! إتقان متكامل للمسائل والحدود الأصولية وثمرات الخلاف في الصفحات 1 إلى 125.'
+                ? 'ممتاز جداً! إتقان متكامل للمسائل والحدود الأصولية وثمرات الخلاف في الصفحات 1 إلى 141.'
                 : percentage >= 65
                 ? 'مستوى جيد جداً! يُنصح بمراجعة المسائل الدقيقة كأوقات الواجب الموسع وحكم الشرط قبل الاختبار.'
                 : 'تحتاج إلى إعادة قراءة المقتطفات الأصيلة وجداول مقارنة المذاهب لتعزيز الاستيعاب.'}
@@ -104,7 +104,7 @@ export const QuizEngine: React.FC = () => {
         <div className="flex items-center justify-between text-xs mb-1">
           <div className="flex items-center gap-1.5 font-semibold text-rose-800 dark:text-rose-400">
             <HelpCircle className="w-4 h-4" />
-            <span>الاختبار التحريري التجريبي (ص 1 - 125)</span>
+            <span>الاختبار التحريري التجريبي (ص 1 - 141)</span>
           </div>
 
           <span className="font-mono tabular-nums text-stone-500 dark:text-slate-400 font-semibold">

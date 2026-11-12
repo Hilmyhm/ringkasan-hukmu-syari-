@@ -25,7 +25,7 @@ export const MadhhabMatrix: React.FC<MadhhabMatrixProps> = ({ onOpenExcerpt }) =
       <div className="border-b border-stone-200 dark:border-slate-800 pb-5">
         <div className="flex items-center gap-2 text-xs font-semibold text-cyan-800 dark:text-cyan-400 mb-1">
           <Scale className="w-4 h-4" />
-          <span>الخلاف الأصولي والمقارنة بين المذاهب الأربعة (ص 1 - 125)</span>
+          <span>الخلاف الأصولي والمقارنة بين المذاهب الأربعة (ص 1 - 141)</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold font-amiri text-stone-900 dark:text-white">
           جداول المقارنة التفاعلية وثمرة الخلاف الفقهي

@@ -37,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               منصة الحكم الشرعي وأصول الفقه
             </span>
             <span className="hidden sm:block text-[11px] text-stone-500 dark:text-slate-400 font-tajawal -mt-0.5">
-              دراسة تحليلية تفاعلية (ص 1 - 125)
+              دراسة تحليلية تفاعلية (ص 1 - 141)
             </span>
           </button>
         </div>

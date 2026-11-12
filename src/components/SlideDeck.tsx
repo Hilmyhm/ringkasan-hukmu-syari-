@@ -265,7 +265,7 @@ export const SlideDeck: React.FC<SlideDeckProps> = ({ onOpenExcerpt, onSwitchToH
               <div className="flex items-center gap-2">
                 <Compass className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                 <h3 className="font-bold font-amiri text-lg text-stone-900 dark:text-white">
-                  فهرس شرائح المنهج (ص 1 - 125)
+                  فهرس شرائح المنهج (ص 1 - 141)
                 </h3>
               </div>
               <button
