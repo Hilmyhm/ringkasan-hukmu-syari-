@@ -4,8 +4,9 @@
  */
 
 import React, { useState } from 'react';
-import { X, Copy, Check, BookOpen } from 'lucide-react';
+import { X, Copy, Check, BookOpen, Download } from 'lucide-react';
 import { PDFExcerpt } from '../types/curriculum';
+import { SOURCE_PDF_URL, SOURCE_PDF_DOWNLOAD_NAME } from './Navbar';
 
 interface ExcerptModalProps {
   excerpt: PDFExcerpt | null;
@@ -82,27 +83,38 @@ export const ExcerptModal: React.FC<ExcerptModalProps> = ({ excerpt, onClose }) 
         </div>
 
         {/* Footer with Actions */}
-        <div className="flex items-center justify-between px-6 py-3.5 border-t border-stone-200 dark:border-slate-800 bg-stone-100/60 dark:bg-slate-900 text-xs text-stone-400 dark:text-slate-500">
-          <span className="truncate max-w-[280px] sm:max-w-md font-tajawal">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3.5 border-t border-stone-200 dark:border-slate-800 bg-stone-100/60 dark:bg-slate-900 text-xs text-stone-400 dark:text-slate-500">
+          <span className="truncate max-w-[260px] sm:max-w-md font-tajawal">
             {excerpt.bookTitle} · ص ١ - ١٤١
           </span>
 
-          <button
-            onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-stone-200/80 dark:bg-slate-800 hover:bg-stone-300 dark:hover:bg-slate-700 text-stone-800 dark:text-slate-100 text-xs sm:text-sm font-medium transition-colors"
-          >
-            {copied ? (
-              <>
-                <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>تم النسخ</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4" />
-                <span>نسخ النص</span>
-              </>
-            )}
-          </button>
+          <div className="flex items-center gap-2">
+            <a
+              href={SOURCE_PDF_URL}
+              download={SOURCE_PDF_DOWNLOAD_NAME}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-amber-600/10 hover:bg-amber-600 text-amber-900 dark:text-amber-300 hover:text-white dark:hover:text-white border border-amber-500/30 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
+            >
+              <Download className="w-4 h-4" />
+              <span>تحميل PDF</span>
+            </a>
+
+            <button
+              onClick={handleCopy}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-stone-200/80 dark:bg-slate-800 hover:bg-stone-300 dark:hover:bg-slate-700 text-stone-800 dark:text-slate-100 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>تم النسخ</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4" />
+                  <span>نسخ النص</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

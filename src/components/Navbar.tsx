@@ -4,7 +4,12 @@
  */
 
 import React from 'react';
-import { Sun, Moon, Maximize2, Minimize2, BookOpen, Presentation } from 'lucide-react';
+import { Sun, Moon, Maximize2, Minimize2, FileText, ExternalLink } from 'lucide-react';
+
+export const SOURCE_PDF_URL =
+  '/assets/aistudio/__________________________________________________hal-43_3599647b.pdf';
+export const SOURCE_PDF_DOWNLOAD_NAME =
+  'مسودة كاملة لمقرر الحكم الشرعي للتعليم الإلكتروني.pdf';
 
 interface NavbarProps {
   activeTab: 'slides' | 'hub' | 'comparison' | 'flashcards' | 'quiz';
@@ -38,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Zone 1: Single text element wordmark */}
         <button
           onClick={() => setActiveTab('slides')}
-          className="text-xl sm:text-2xl font-bold font-amiri tracking-wide text-amber-900 dark:text-amber-300 hover:text-amber-700 dark:hover:text-amber-200 transition-colors whitespace-nowrap shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-lg px-1"
+          className="text-lg sm:text-2xl font-bold font-amiri tracking-wide text-amber-900 dark:text-amber-300 hover:text-amber-700 dark:hover:text-amber-200 transition-colors whitespace-nowrap shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-lg px-1"
         >
           الحكم الشرعي وأصول الفقه
         </button>
@@ -60,8 +65,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           ))}
         </nav>
 
-        {/* Zone 3: Theme, Fullscreen & Primary Switch Action */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        {/* Zone 3: Theme, Fullscreen & Source PDF Button */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           <button
             onClick={() => setIsDark(!isDark)}
             aria-label="تبديل الوضع الليلي والنهاري"
@@ -80,22 +85,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
 
-          <button
-            onClick={() => setActiveTab(activeTab === 'slides' ? 'hub' : 'slides')}
-            className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-emerald-800 hover:bg-emerald-700 text-white shadow-xs transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5"
+          <a
+            href={SOURCE_PDF_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="عرض وتحميل: مسودة كاملة لمقرر الحكم الشرعي للتعليم الإلكتروني (PDF)"
+            className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-emerald-800 hover:bg-emerald-700 text-white shadow-xs transition-colors whitespace-nowrap shrink-0 inline-flex items-center gap-1.5"
           >
-            {activeTab === 'slides' ? (
-              <>
-                <BookOpen className="w-4 h-4" />
-                <span>لوحة المذاكرة</span>
-              </>
-            ) : (
-              <>
-                <Presentation className="w-4 h-4" />
-                <span>عرض الشرائح</span>
-              </>
-            )}
-          </button>
+            <FileText className="w-4 h-4 shrink-0" />
+            <span className="hidden sm:inline">الكتاب المصدري (PDF)</span>
+            <span className="sm:hidden">المصدر PDF</span>
+            <ExternalLink className="w-3.5 h-3.5 opacity-80 shrink-0" />
+          </a>
         </div>
       </div>
 
