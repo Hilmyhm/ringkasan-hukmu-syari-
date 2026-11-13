@@ -17,6 +17,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'slides' | 'hub' | 'comparison' | 'flashcards' | 'quiz'>('slides');
   const [activeExcerpt, setActiveExcerpt] = useState<PDFExcerpt | null>(null);
   const [initialLessonId, setInitialLessonId] = useState<number | undefined>(undefined);
+  const [slideLessonId, setSlideLessonId] = useState<number | undefined>(undefined);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Dark mode state: default to true (as requested: "implement a dark mode to reduce eye strain during late-night study sessions")
@@ -51,6 +52,7 @@ export default function App() {
   };
 
   const handleJumpToSlide = (lessonId: number) => {
+    setSlideLessonId(lessonId);
     setActiveTab('slides');
   };
 
@@ -72,6 +74,7 @@ export default function App() {
           <SlideDeck
             onOpenExcerpt={(excerpt) => setActiveExcerpt(excerpt)}
             onSwitchToHub={handleSwitchToHub}
+            targetLessonId={slideLessonId}
           />
         )}
 

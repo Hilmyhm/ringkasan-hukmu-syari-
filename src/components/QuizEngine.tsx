@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { HelpCircle, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft, BookmarkCheck } from 'lucide-react';
+import { HelpCircle, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { QuizQuestion } from '../types/curriculum';
 import { QUIZ_QUESTIONS } from '../data/curriculumData';
@@ -66,23 +66,23 @@ export const QuizEngine: React.FC = () => {
             <Award className="w-8 h-8" />
           </div>
 
-          <div className="space-y-2">
-            <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-400 block font-tajawal">
-              اكتمل الاختبار التجريبي بنجاح!
+          <div className="space-y-2.5">
+            <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400 block font-tajawal">
+              اكتمل الاختبار التجريبي
             </span>
-            <h2 className="text-3xl font-bold font-amiri">
+            <h2 className="study-title text-3xl sm:text-4xl font-bold tabular-nums">
               نتيجتك: {score} من {totalQuestions} ({percentage}%)
             </h2>
-            <p className="text-xs sm:text-sm text-stone-600 dark:text-slate-400 font-tajawal max-w-md mx-auto">
+            <p className="study-subtext text-stone-600 dark:text-slate-400 max-w-md mx-auto">
               {percentage >= 85
-                ? 'ممتاز جداً! إتقان متكامل للمسائل والحدود الأصولية وثمرات الخلاف في الصفحات 1 إلى 141.'
+                ? 'إتقان متكامل للمسائل والحدود الأصولية وثمرات الخلاف في الصفحات ١ إلى ١٤١.'
                 : percentage >= 65
-                ? 'مستوى جيد جداً! يُنصح بمراجعة المسائل الدقيقة كأوقات الواجب الموسع وحكم الشرط قبل الاختبار.'
-                : 'تحتاج إلى إعادة قراءة المقتطفات الأصيلة وجداول مقارنة المذاهب لتعزيز الاستيعاب.'}
+                ? 'مستوى جيد جداً! يُنصح بمراجعة المسائل الدقيقة كأوقات الواجب الموسع وحكم الشرط وأقسام الرخص.'
+                : 'يُنصح بإعادة مراجعة المقتطفات الأصيلة وجداول مقارنة المذاهب لتعزيز الاستيعاب.'}
             </p>
           </div>
 
-          <div className="pt-4 flex justify-center gap-3">
+          <div className="pt-4 flex justify-center">
             <button
               onClick={handleRestartQuiz}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm transition-colors shadow-xs"
@@ -97,43 +97,41 @@ export const QuizEngine: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 text-stone-900 dark:text-slate-100">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7 text-stone-900 dark:text-slate-100">
       
       {/* Quiz Header */}
-      <div className="border-b border-stone-200 dark:border-slate-800 pb-5">
-        <div className="flex items-center justify-between text-xs mb-1">
-          <div className="flex items-center gap-1.5 font-semibold text-rose-800 dark:text-rose-400">
-            <HelpCircle className="w-4 h-4" />
-            <span>الاختبار التحريري التجريبي (ص 1 - 141)</span>
+      <header className="border-b border-stone-200 dark:border-slate-800 pb-6 space-y-3">
+        <div className="flex items-center justify-between text-xs text-stone-400 dark:text-slate-500 font-tajawal">
+          <div className="flex items-center gap-1.5">
+            <HelpCircle className="w-3.5 h-3.5 text-rose-700 dark:text-rose-400" />
+            <span>الاختبار التحريري التجريبي · ص ١ - ١٤١</span>
           </div>
 
-          <span className="font-mono tabular-nums text-stone-500 dark:text-slate-400 font-semibold">
+          <span className="tabular-nums font-medium">
             السؤال {currentQuestionIndex + 1} من {totalQuestions}
           </span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-bold font-amiri text-stone-900 dark:text-white">
+        <h1 className="study-title text-3xl sm:text-4xl font-bold text-stone-950 dark:text-white">
           قياس الفهم والاستيعاب الأصولي
         </h1>
 
-        {/* Progress bar */}
-        <div className="w-full h-1.5 bg-stone-200 dark:bg-slate-800 rounded-full mt-3 overflow-hidden">
+        <div className="w-full h-1.5 bg-stone-200 dark:bg-slate-800 rounded-full overflow-hidden">
           <div
             className="h-full bg-linear-to-l from-rose-500 to-amber-500 transition-all duration-300"
             style={{ width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }}
           />
         </div>
-      </div>
+      </header>
 
       {/* Question Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-800 shadow-sm space-y-6">
+      <div className="p-6 sm:p-9 rounded-3xl bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-800 shadow-sm space-y-7">
         
         <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs text-stone-400 dark:text-slate-500">
-            <BookmarkCheck className="w-3.5 h-3.5 text-amber-600" />
-            <span>مرجع المسألة: صفحة {currentQ.pageNumber} من المقرر</span>
-          </div>
-          <h2 className="text-lg sm:text-xl font-bold font-amiri text-stone-900 dark:text-white leading-relaxed">
+          <span className="text-xs text-stone-400 dark:text-slate-500 tabular-nums font-tajawal block">
+            صفحة {currentQ.pageNumber} من المقرر
+          </span>
+          <h2 className="study-heading text-xl sm:text-2xl font-bold text-stone-950 dark:text-white leading-[1.6]">
             {currentQ.question}
           </h2>
         </div>
@@ -144,18 +142,23 @@ export const QuizEngine: React.FC = () => {
             const isSelected = selectedOption === idx;
             const isCorrect = idx === currentQ.correctIndex;
 
-            let optionClasses = 'border-stone-200 dark:border-slate-800 bg-stone-50/70 dark:bg-slate-800/40 text-stone-800 dark:text-slate-200 hover:border-amber-400 dark:hover:border-amber-600';
+            let optionClasses =
+              'border-stone-200 dark:border-slate-800 bg-stone-50/70 dark:bg-slate-800/40 text-stone-800 dark:text-slate-100 hover:border-amber-400 dark:hover:border-amber-600';
 
             if (isAnswerSubmitted) {
               if (isCorrect) {
-                optionClasses = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-200 font-bold';
+                optionClasses =
+                  'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-200 font-semibold';
               } else if (isSelected && !isCorrect) {
-                optionClasses = 'border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-950 dark:text-rose-200 font-bold';
+                optionClasses =
+                  'border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-950 dark:text-rose-200 font-semibold';
               } else {
-                optionClasses = 'opacity-50 border-stone-200 dark:border-slate-800 text-stone-400 dark:text-slate-500';
+                optionClasses =
+                  'opacity-45 border-stone-200 dark:border-slate-800 text-stone-400 dark:text-slate-500';
               }
             } else if (isSelected) {
-              optionClasses = 'border-amber-600 bg-amber-50 dark:bg-amber-950/40 text-amber-950 dark:text-amber-200 font-bold shadow-xs';
+              optionClasses =
+                'border-amber-600 bg-amber-50 dark:bg-amber-950/40 text-amber-950 dark:text-amber-200 font-semibold shadow-xs';
             }
 
             return (
@@ -163,13 +166,13 @@ export const QuizEngine: React.FC = () => {
                 key={idx}
                 onClick={() => handleSelectOption(idx)}
                 disabled={isAnswerSubmitted}
-                className={`w-full text-right p-4 rounded-xl border text-xs sm:text-sm transition-all flex items-center justify-between gap-3 ${optionClasses}`}
+                className={`w-full text-right px-5 py-4 rounded-xl border text-base leading-[1.75] transition-all flex items-center justify-between gap-4 ${optionClasses}`}
               >
-                <div className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded-lg bg-stone-200/60 dark:bg-slate-700/60 flex items-center justify-center font-mono text-xs shrink-0">
+                <div className="flex items-center gap-3.5">
+                  <span className="w-7 h-7 rounded-lg bg-stone-200/70 dark:bg-slate-700/70 flex items-center justify-center font-mono text-xs tabular-nums shrink-0 text-stone-600 dark:text-slate-300">
                     {idx + 1}
                   </span>
-                  <span className="font-tajawal leading-normal">{option}</span>
+                  <span className="font-tajawal">{option}</span>
                 </div>
 
                 {isAnswerSubmitted && isCorrect && (
@@ -184,13 +187,13 @@ export const QuizEngine: React.FC = () => {
           })}
         </div>
 
-        {/* Explanation Card */}
+        {/* Explanation Callout */}
         {isAnswerSubmitted && (
-          <div className="p-4 rounded-xl bg-stone-100/80 dark:bg-slate-800/80 border border-stone-200 dark:border-slate-700 space-y-1.5 animate-in fade-in duration-200">
-            <span className="text-xs font-bold text-amber-900 dark:text-amber-300 block font-tajawal">
-              التعليل والتأصيل الأصولي (ص {currentQ.pageNumber}):
+          <div className="p-5 rounded-2xl bg-stone-50 dark:bg-slate-800/60 border border-stone-200 dark:border-slate-700 space-y-1.5 animate-in fade-in duration-200">
+            <span className="text-xs font-semibold text-amber-800 dark:text-amber-300 block font-tajawal">
+              التأصيل الأصولي · ص {currentQ.pageNumber}
             </span>
-            <p className="text-xs sm:text-sm text-stone-700 dark:text-slate-300 font-tajawal leading-relaxed">
+            <p className="study-body text-stone-700 dark:text-slate-200">
               {currentQ.explanation}
             </p>
           </div>
@@ -202,7 +205,7 @@ export const QuizEngine: React.FC = () => {
             <button
               onClick={handleSubmitAnswer}
               disabled={selectedOption === null}
-              className={`px-6 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+              className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                 selectedOption === null
                   ? 'opacity-40 cursor-not-allowed bg-stone-200 dark:bg-slate-800 text-stone-500'
                   : 'bg-amber-600 hover:bg-amber-500 text-white shadow-xs'
@@ -213,7 +216,7 @@ export const QuizEngine: React.FC = () => {
           ) : (
             <button
               onClick={handleNextQuestion}
-              className="inline-flex items-center gap-2 px-6 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-sm font-semibold transition-colors shadow-xs"
             >
               <span>{currentQuestionIndex < totalQuestions - 1 ? 'السؤال التالي' : 'عرض النتيجة النهائية'}</span>
               <ArrowLeft className="w-4 h-4" />

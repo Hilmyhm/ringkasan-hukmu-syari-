@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { Award, RotateCw, CheckCircle, HelpCircle, Shuffle, ChevronRight, ChevronLeft, Bookmark } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Award, RotateCw, CheckCircle, Shuffle, ChevronRight, ChevronLeft, Bookmark } from 'lucide-react';
+import gsap from 'gsap';
 import { Flashcard } from '../types/curriculum';
 import { FLASHCARDS } from '../data/curriculumData';
 
@@ -13,6 +14,7 @@ export const FlashcardDeck: React.FC = () => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [masteredIds, setMasteredIds] = useState<Record<string, boolean>>({});
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const cardInnerRef = useRef<HTMLDivElement>(null);
 
   const categories = ['all', ...Array.from(new Set(FLASHCARDS.map((c) => c.category)))];
 
@@ -22,6 +24,17 @@ export const FlashcardDeck: React.FC = () => {
   });
 
   const currentCard: Flashcard | undefined = filteredCards[currentIndex] || filteredCards[0];
+
+  // Smooth GSAP 3D flip synced with transform-style: preserve-3d
+  useEffect(() => {
+    if (cardInnerRef.current) {
+      gsap.to(cardInnerRef.current, {
+        rotateY: isFlipped ? 180 : 0,
+        duration: 0.5,
+        ease: 'power3.out',
+      });
+    }
+  }, [isFlipped]);
 
   const handleNext = () => {
     setIsFlipped(false);
@@ -59,39 +72,36 @@ export const FlashcardDeck: React.FC = () => {
   const totalMasteredCount = Object.values(masteredIds).filter(Boolean).length;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 text-stone-900 dark:text-slate-100">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7 text-stone-900 dark:text-slate-100">
       
       {/* Header Strip */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 dark:border-slate-800 pb-5">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-purple-800 dark:text-purple-400 mb-1">
-            <Award className="w-4 h-4" />
-            <span>المراجعة السريعة للامتحانات</span>
+      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-stone-200 dark:border-slate-800 pb-6">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2 text-xs text-stone-400 dark:text-slate-500 font-tajawal">
+            <Award className="w-3.5 h-3.5 text-purple-700 dark:text-purple-400" />
+            <span>استذكار الحدود والقواعد · ص ١ - ١٤١</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-amiri text-stone-900 dark:text-white">
-            بطاقات الاستذكار للحدود والقواعد الأصولية
+          <h1 className="study-title text-3xl sm:text-4xl font-bold text-stone-950 dark:text-white">
+            بطاقات الاستذكار الأصولية
           </h1>
-          <p className="text-xs sm:text-sm text-stone-600 dark:text-slate-400 font-tajawal mt-1">
-            اختبر استحضارك للمصطلحات والتعريفات والقواعد المقررة في الصفحات 1 إلى 141.
-          </p>
         </div>
 
-        {/* Mastered Counter */}
-        <div className="flex items-center gap-3">
-          <div className="px-3.5 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-xs font-semibold font-tajawal text-purple-900 dark:text-purple-300">
-            أتقنت: {totalMasteredCount} من {FLASHCARDS.length}
-          </div>
+        {/* Clean Unboxed Counter + Shuffle */}
+        <div className="flex items-center gap-4 shrink-0">
+          <span className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 font-tajawal tabular-nums">
+            تم إتقان <strong className="text-purple-700 dark:text-purple-300">{totalMasteredCount}</strong> من {FLASHCARDS.length}
+          </span>
           <button
             onClick={handleShuffle}
-            className="p-2 rounded-xl bg-stone-100 dark:bg-slate-800 hover:bg-stone-200 dark:hover:bg-slate-700 text-stone-700 dark:text-slate-200 border border-stone-200 dark:border-slate-700 transition-colors"
-            title="ترتيب عشوائي"
+            className="p-2 rounded-xl bg-stone-100 dark:bg-slate-800 hover:bg-stone-200 dark:hover:bg-slate-700 text-stone-600 dark:text-slate-200 border border-stone-200 dark:border-slate-700 transition-colors"
+            title="بطاقة عشوائية"
           >
             <Shuffle className="w-4 h-4" />
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Category Pills */}
+      {/* Category Filter Buttons */}
       <div className="flex flex-wrap items-center gap-1.5">
         {categories.map((cat) => (
           <button
@@ -101,10 +111,10 @@ export const FlashcardDeck: React.FC = () => {
               setCurrentIndex(0);
               setIsFlipped(false);
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${
               categoryFilter === cat
                 ? 'bg-purple-700 text-white shadow-xs'
-                : 'bg-white dark:bg-slate-800 border border-stone-200 dark:border-slate-700 text-stone-700 dark:text-slate-300 hover:bg-stone-50'
+                : 'bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800'
             }`}
           >
             {cat === 'all' ? 'جميع البطاقات' : cat}
@@ -112,82 +122,89 @@ export const FlashcardDeck: React.FC = () => {
         ))}
       </div>
 
-      {/* Interactive 3D Flip Card Container */}
-      <div className="perspective-1000 my-6">
+      {/* Interactive 3D Flip Card */}
+      <div className="flashcard-scene my-6">
         <div
+          ref={cardInnerRef}
           onClick={() => setIsFlipped(!isFlipped)}
-          className={`relative w-full min-h-[340px] sm:min-h-[380px] p-6 sm:p-10 rounded-3xl cursor-pointer select-none transition-all duration-500 shadow-xl border flex flex-col justify-between ${
-            isFlipped
-              ? 'bg-purple-950 text-white border-purple-800'
-              : 'bg-white dark:bg-slate-900 text-stone-900 dark:text-white border-stone-200 dark:border-slate-800 hover:border-purple-400 dark:hover:border-purple-700'
-          }`}
+          className="flashcard-inner w-full min-h-[360px] sm:min-h-[400px] cursor-pointer select-none"
         >
-          {/* Card Top Label */}
-          <div className="flex items-center justify-between text-xs">
-            <span className={`px-2.5 py-0.5 rounded-md font-bold font-tajawal ${
-              isFlipped ? 'bg-purple-900 text-purple-200' : 'bg-stone-100 dark:bg-slate-800 text-stone-700 dark:text-slate-300'
-            }`}>
-              {currentCard.category}
-            </span>
-
-            <div className="flex items-center gap-2">
-              <span className={`font-mono text-xs tabular-nums ${isFlipped ? 'text-purple-300' : 'text-stone-400 dark:text-slate-500'}`}>
-                صفحة {currentCard.pageNumber}
-              </span>
+          {/* Front Face */}
+          <div className="flashcard-face absolute inset-0 p-7 sm:p-10 rounded-3xl shadow-xl border bg-white dark:bg-slate-900 text-stone-900 dark:text-white border-stone-200 dark:border-slate-800 hover:border-purple-400/70 dark:hover:border-purple-600/70 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs text-stone-400 dark:text-slate-500">
+              <span>{currentCard.category} · صفحة {currentCard.pageNumber}</span>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleMastered(currentCard.id);
                 }}
-                className={`p-1 rounded-md transition-colors ${
-                  isMastered ? 'text-emerald-400' : 'text-stone-300 hover:text-stone-500'
+                className={`p-1.5 rounded-lg transition-colors ${
+                  isMastered ? 'text-emerald-600 dark:text-emerald-400' : 'text-stone-300 hover:text-stone-500'
                 }`}
-                title={isMastered ? 'تم الحفظ' : 'تمييز كـ محفوظ'}
+                title={isMastered ? 'تم الحفظ' : 'تمييز كـ متقنة'}
               >
                 <Bookmark className={`w-4 h-4 ${isMastered ? 'fill-current' : ''}`} />
               </button>
             </div>
+
+            <div className="my-auto py-6 text-center max-w-2xl mx-auto">
+              <h2 className="study-title text-2xl sm:text-3xl font-bold text-stone-950 dark:text-white leading-[1.6]">
+                {currentCard.front}
+              </h2>
+            </div>
+
+            <div className="flex items-center justify-between text-xs text-stone-400 dark:text-slate-500 pt-4 border-t border-stone-100 dark:border-slate-800/80">
+              <span className="tabular-nums font-tajawal">
+                {currentIndex + 1} / {filteredCards.length}
+              </span>
+              <span className="inline-flex items-center gap-1.5 font-tajawal">
+                <RotateCw className="w-3.5 h-3.5" />
+                <span>انقر لعرض الجواب</span>
+              </span>
+            </div>
           </div>
 
-          {/* Central Question or Answer */}
-          <div className="my-auto py-6 text-center space-y-4">
-            {!isFlipped ? (
-              <div className="space-y-3">
-                <span className="text-xs uppercase tracking-wider text-purple-600 dark:text-purple-400 font-semibold block">
-                  السؤال أو المصطلح الأصولي
+          {/* Back Face */}
+          <div className="flashcard-face flashcard-face-back absolute inset-0 p-7 sm:p-10 rounded-3xl shadow-xl border bg-purple-950 text-white border-purple-800 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs text-purple-300/80">
+              <span>الجواب المحرر · صفحة {currentCard.pageNumber}</span>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMastered(currentCard.id);
+                }}
+                className={`p-1.5 rounded-lg transition-colors ${
+                  isMastered ? 'text-emerald-400' : 'text-purple-300/50 hover:text-purple-200'
+                }`}
+                title={isMastered ? 'تم الحفظ' : 'تمييز كـ متقنة'}
+              >
+                <Bookmark className={`w-4 h-4 ${isMastered ? 'fill-current' : ''}`} />
+              </button>
+            </div>
+
+            <div className="my-auto py-4 text-center space-y-5 max-w-2xl mx-auto">
+              <p className="study-heading text-xl sm:text-2xl font-bold text-white leading-[1.75]">
+                {currentCard.back}
+              </p>
+
+              <div className="pt-4 border-t border-purple-800/80 text-right max-w-xl mx-auto">
+                <span className="text-xs font-semibold text-amber-300 block mb-1">
+                  القاعدة والضابط
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-bold font-amiri leading-relaxed">
-                  {currentCard.front}
-                </h3>
-                <span className="text-xs text-stone-400 dark:text-slate-500 block pt-2">
-                  (انقر فوق البطاقة لكشف الجواب والضابط)
-                </span>
-              </div>
-            ) : (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <span className="text-xs uppercase tracking-wider text-amber-300 font-semibold block">
-                  الجواب والضابط المحرر
-                </span>
-                <p className="text-xl sm:text-2xl font-bold font-amiri text-purple-100 leading-relaxed">
-                  {currentCard.back}
-                </p>
-                <div className="mt-4 p-3 rounded-xl bg-purple-900/60 border border-purple-700/60 text-xs sm:text-sm text-purple-200 font-tajawal max-w-lg mx-auto">
-                  <span className="font-bold text-amber-300 block mb-0.5">القاعدة والضابط:</span>
+                <p className="study-subtext text-purple-100/90">
                   {currentCard.keyRule}
-                </div>
+                </p>
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* Bottom Card Strip */}
-          <div className="flex items-center justify-between text-xs text-stone-400 dark:text-slate-500 pt-3 border-t border-stone-100 dark:border-slate-800/80">
-            <span className="font-mono tabular-nums">
-              البطاقة {currentIndex + 1} من {filteredCards.length}
-            </span>
-
-            <div className="flex items-center gap-1.5 font-tajawal">
-              <RotateCw className="w-3.5 h-3.5" />
-              <span>{isFlipped ? 'انقر لإعادة السؤال' : 'انقر لقلب البطاقة'}</span>
+            <div className="flex items-center justify-between text-xs text-purple-300/70 pt-4 border-t border-purple-800/70">
+              <span className="tabular-nums font-tajawal">
+                {currentIndex + 1} / {filteredCards.length}
+              </span>
+              <span className="inline-flex items-center gap-1.5 font-tajawal">
+                <RotateCw className="w-3.5 h-3.5" />
+                <span>انقر للعودة للسؤال</span>
+              </span>
             </div>
           </div>
         </div>
@@ -197,29 +214,29 @@ export const FlashcardDeck: React.FC = () => {
       <div className="flex items-center justify-between gap-4">
         <button
           onClick={handlePrev}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-800 hover:bg-stone-50 dark:hover:bg-slate-800 text-xs sm:text-sm font-semibold transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-800 hover:bg-stone-50 dark:hover:bg-slate-800 text-sm font-semibold transition-colors whitespace-nowrap"
         >
           <ChevronRight className="w-4 h-4" />
-          <span>البطاقة السابقة</span>
+          <span>السابقة</span>
         </button>
 
         <button
           onClick={() => toggleMastered(currentCard.id)}
-          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-colors ${
+          className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors whitespace-nowrap ${
             isMastered
               ? 'bg-emerald-600 text-white'
-              : 'bg-stone-200 dark:bg-slate-800 text-stone-800 dark:text-slate-200 hover:bg-emerald-100'
+              : 'bg-stone-200/80 dark:bg-slate-800 text-stone-800 dark:text-slate-200 hover:bg-emerald-100 dark:hover:bg-emerald-950/60'
           }`}
         >
           <CheckCircle className="w-4 h-4" />
-          <span>{isMastered ? 'تم إتقانها بنجاح' : 'تحديد كـ متقنة'}</span>
+          <span>{isMastered ? 'تم إتقانها' : 'تحديد كـ متقنة'}</span>
         </button>
 
         <button
           onClick={handleNext}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-purple-700 hover:bg-purple-600 text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-700 hover:bg-purple-600 text-white text-sm font-semibold transition-colors shadow-xs whitespace-nowrap"
         >
-          <span>البطاقة التالية</span>
+          <span>التالية</span>
           <ChevronLeft className="w-4 h-4" />
         </button>
       </div>
